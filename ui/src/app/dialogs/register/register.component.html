@@ -1,0 +1,26 @@
+<div class="container">
+    <span class="card-title">Register</span>
+    <form class="form">
+        <mat-form-field class="form-field">
+            <mat-label>Name</mat-label>
+            <input matInput name="name" [(ngModel)]="name">
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput name="email" [(ngModel)]="email">
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>Password</mat-label>
+            <input matInput name="password" type="password" [(ngModel)]="password">
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>Confirm Passowrd</mat-label>
+            <input matInput name="confirmPassword" type="password" [(ngModel)]="confirmPassword">
+        </mat-form-field>
+
+        <button class="register" (click)="register()">Register</button>
+    </form>
+</div>

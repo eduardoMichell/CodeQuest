@@ -1,0 +1,43 @@
+.register {
+    width: 80%;
+    height: 30px;
+    border-radius: 30px;
+    border: none;
+    background-color: #dbdbdb;
+}
+
+.register:hover {
+    background: #f5f5f5;
+}
+
+.register:active {
+    background: #afafaf;
+}
+
+  
+.container {
+    width: 500px;
+    height: 565px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-field {
+    width: 80%;
+}
+
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 10px;
+    color: white;
+}

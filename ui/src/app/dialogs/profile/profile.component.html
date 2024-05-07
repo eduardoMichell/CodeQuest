@@ -1,0 +1,35 @@
+<div class="container">
+    <span class="card-title">My Profile</span>
+    <form class="form">
+        <mat-form-field class="form-field">
+            <mat-label>Name</mat-label>
+            <input matInput name="name" [(ngModel)]="name">
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput name="email" [(ngModel)]="email">
+        </mat-form-field>
+
+    
+        <div class="passwords">
+            <mat-form-field class="form-field" style="width: 100%">
+                <mat-label>Old Password</mat-label>
+                <input matInput name="oldPassword" [(ngModel)]="oldPassword">
+            </mat-form-field>
+            <mat-form-field class="form-field" style="width: 100%; margin-left: 10px;">
+                <mat-label>New Password</mat-label>
+                <input matInput name="newPassword" [(ngModel)]="newPassword">
+            </mat-form-field>
+        </div>
+        <button class="button" style="width: 80%;" (click)="changePassword()">Change Password</button>
+
+
+
+        <div class="buttons">
+            <button class="button" (click)="closeDialog()">Cancel</button>
+            <button class="button" (click)="updateUser()">Update User</button>
+        </div>
+
+    </form>
+</div>
