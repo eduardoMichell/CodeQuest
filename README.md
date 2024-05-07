@@ -10,8 +10,8 @@ A ideia do prof. Alcemar é utilizar um jogo de quiz, cujas perguntas são relac
 aos conceitos de Lógica de Programação. 
 
 O jogo terá 2 módulos:
-    • Módulo Professor;
-    • Módulo Aluno.
+    - Módulo Professor;
+    -Módulo Aluno.
 
 O módulo professor deve disponibilizar o relatório com o desempenho dos alunos, o
 cadastro de perguntas e respostas, com o respectivo nível de dificuldade de cada
