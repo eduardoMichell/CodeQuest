@@ -17,16 +17,16 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService { 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
+
   constructor(
     public dialog: MatDialog,
     private http: HttpClient
   ) {
-    const userJson = localStorage.getItem(USER_KEY) as string;
-    const user = JSON.parse(userJson);
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(user));
+    const storedUser = localStorage.getItem(USER_KEY);
+    this.currentUserSubject = new BehaviorSubject<any>(storedUser ? JSON.parse(storedUser) : null);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -35,17 +35,16 @@ export class UserService {
   }
 
   cleanStorage(): void {
-    window.sessionStorage.clear();
+    localStorage.clear();
   }
 
   public saveUser(user: any): void {
     this.cleanStorage();
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
-
   public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
+    const user = localStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user).user;
     }
@@ -53,32 +52,21 @@ export class UserService {
   }
 
   public isLogged(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return true;
-    }
-
-    return false;
+    const user = localStorage.getItem(USER_KEY);
+    return !!user;
   }
- 
 
   login(username: string, password: string) {
-    return this.http.post<any>(API_URL + 'login', { email:username, password }).pipe(
+    return this.http.post<any>(API_URL + 'login', { email: username, password }, httpOptions).pipe(
       map((response: any) => {
-        if (!response.error) {
-          const user: any = response.result.user
+        if (!response.error && response.result) {
+          const user: any = response.result.user;
           this.saveUser({ token: response.result.token, user });
-          this.currentUserSubject.next(user);
+          this.currentUserSubject.next({ token: response.result.token, user });
         }
-        console.log(response)
         return response;
       })
     );
-  }
-
-  public isAdmin() {
-    const user = this.getUser() || {};
-    return user?.isAdmin || false;
   }
 
   logout() {
@@ -86,4 +74,7 @@ export class UserService {
     this.currentUserSubject.next(null);
   }
 
-}
+  public isAdmin() {
+    const user = this.getUser();
+    return user?.isAdmin || false;
+  }}

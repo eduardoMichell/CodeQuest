@@ -36,6 +36,10 @@
     position: relative;  /* Posicionamento relativo para ajustes adicionais se necessário */
 }
 
+.img-logo{
+    width: 45%;
+}
+
 .login-container {
     width: 500px;
     height: 400px;
@@ -84,3 +88,4 @@
     margin: 10px;
     margin-top: -15px;
 }
+ 

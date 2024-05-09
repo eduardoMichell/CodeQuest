@@ -20,15 +20,17 @@ export class HomeComponent {
   }
 
   async ngOnInit(): Promise<void> {
+    console.log(this.userService.currentUserValue)
+
     this.headerService.headerData = {
-      title: 'Game',
+      title: 'Tela Inicial',
       icon: '',
       routeUrl: ''
     };
   }
 
  
-  userIsAdmin(){
+  isAdmin(){
     return this.userService.isAdmin();
   }
 
