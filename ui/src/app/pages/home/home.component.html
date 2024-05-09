@@ -1,4 +1,4 @@
-<div class="menu-container">
+<div class="menu-container" *ngIf="isLogged()">
     <div *ngIf="!isAdmin()" class="button-container">
         <div class="button">
             <span class="button-text">Jogar</span>
@@ -10,12 +10,12 @@
             <span class="button-text">Consultar</span>
         </div>
     </div>
-    <div *ngIf="isAdmin()">
-        <div class="button" class="button-container">
-            <span  class="button-text">Trilhas</span>
+    <div *ngIf="isAdmin()" class="button-container">
+        <div class="button" style="margin: 100px">
+            <span class="button-text">Trilhas</span>
         </div>
-        <div class="button">
-            <span  class="button-text">Alunos</span>
+        <div class="button" style="margin: 100px">
+            <span class="button-text">Alunos</span>
         </div>
     </div>
 </div>

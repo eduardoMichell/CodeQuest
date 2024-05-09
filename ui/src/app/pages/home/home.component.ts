@@ -20,8 +20,6 @@ export class HomeComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.userService.currentUserValue)
-
     this.headerService.headerData = {
       title: 'Tela Inicial',
       icon: '',
@@ -32,6 +30,10 @@ export class HomeComponent {
  
   isAdmin(){
     return this.userService.isAdmin();
+  }
+
+  isLogged(){
+    return this.userService.isLogged();
   }
 
 }

@@ -27,7 +27,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.userService.cleanStorage();
+    this.userService.logout();
     window.location.reload();
   }
 
