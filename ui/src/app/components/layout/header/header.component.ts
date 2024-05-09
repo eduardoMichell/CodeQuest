@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfileComponent } from 'src/app/dialogs/profile/profile.component';
 import { HeaderService } from 'src/app/services/header-service/header.service';
 import { UserService } from 'src/app/services/user-service/user.service';
 
@@ -11,8 +10,6 @@ import { UserService } from 'src/app/services/user-service/user.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-
-
 
   constructor(
     private headerService: HeaderService,
@@ -25,13 +22,6 @@ export class HeaderComponent {
   ngOnInit() {
   }
 
-
-  openProfile() {
-    this.dialog.open(ProfileComponent, {});
-
-  }
-
-
   isLogged() {
     return this.userService.isLogged();
   }
@@ -41,9 +31,7 @@ export class HeaderComponent {
     window.location.reload();
   }
 
-  login() { 
-    this.userService.login();
-  }
+ 
 
   get title(): string {
     return this.headerService.headerData.title

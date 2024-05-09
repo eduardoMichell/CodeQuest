@@ -21,18 +21,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { LoginComponent } from './dialogs/login/login.component';
-import { ProfileComponent } from './dialogs/profile/profile.component';
-import { RegisterComponent } from './dialogs/register/register.component';
+import { LoginComponent } from './pages/login/login.component';
+ 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
-    LoginComponent,
-    ProfileComponent,
-    RegisterComponent,
+    HomeComponent,  
+    LoginComponent
   ],
   imports: [
     BrowserModule,

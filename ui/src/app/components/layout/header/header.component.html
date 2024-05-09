@@ -17,18 +17,11 @@
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openProfile()">
-          <mat-icon>person</mat-icon>
-          <span>My Profile</span>
-        </button>
+       
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Logout</span>
         </button>
       </mat-menu>
-
-      <button mat-icon-button aria-label="Login" *ngIf="!isLogged()" (click)="login()">
-        <mat-icon>login</mat-icon>
-      </button>
     </span>
   </mat-toolbar>
