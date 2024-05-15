@@ -7,22 +7,20 @@ import { GameComponent } from './pages/game/game.component';
 import { NonAdminGuard } from './core/guards/nonAdmin-guard/non-admin.guard';
 import { PhaseComponent } from './pages/phase/phase.component';
 import { ConsultComponent } from './pages/consult/consult.component';
+import { GameSettingsComponent } from './pages/game-settings/game-settings.component';
+import { AdminGuard } from './core/guards/admin-guard/admin.guard';
  
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'settings',
+    component: GameSettingsComponent,
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'consult',
     component: ConsultComponent,
     canActivate: [AuthGuard, NonAdminGuard]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'game',
@@ -33,6 +31,15 @@ const routes: Routes = [
     path: 'game/phase',
     component: PhaseComponent,
     canActivate: [AuthGuard, NonAdminGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',

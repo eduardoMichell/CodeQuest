@@ -1,0 +1,27 @@
+<div class="dialog-container">
+    <h1>Trilhas Criadas</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Tema</th>
+            <th>Dificuldade</th>
+            <th>Relatório</th>
+            <th>Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let track of data.tracks">
+            <td>{{ track.theme }}</td>
+            <td>{{ track.difficulty }}</td>
+            <td><button (click)="generatePDF(track)">Gerar PDF</button></td>
+            <td><button (click)="editTrack(track)">Editar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dialog-actions">
+      <button mat-button (click)="onClose()">Fechar</button>
+    </div>
+  </div>
+  

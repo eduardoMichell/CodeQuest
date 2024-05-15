@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterContentInit{
+export class HomeComponent implements AfterContentInit {
 
 
   constructor(
@@ -51,8 +51,12 @@ export class HomeComponent implements AfterContentInit{
   }
 
   openConsulting(){
-   
     this.router.navigate(['/consult']);
-    console.log("oi")
   }
+
+  openGameSettings(){
+    this.router.navigate(['/settings']);
+    console.log("teste")
+  }
+
 }

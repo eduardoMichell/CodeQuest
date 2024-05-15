@@ -5,13 +5,13 @@ import { UserService } from 'src/app/services/user-service/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class NonAdminGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
   constructor(private authService: UserService, private router: Router) { }
 
   canActivate(): boolean {
     const isAdmin = this.authService.isAdmin();
-    if (isAdmin) {
+    if (!isAdmin) {
       this.router.navigate(['/home']);
       return false;
     }

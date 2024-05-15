@@ -31,6 +31,11 @@ import { FinishDialogComponent } from './dialogs/finish-dialog/finish-dialog.com
 import { ConsultComponent } from './pages/consult/consult.component';
 import { PerformanceDialogComponent } from './dialogs/performance-dialog/performance-dialog.component';
 import { AnsweredTracksDialogComponent } from './dialogs/answered-tracks-dialog/answered-tracks-dialog.component';
+import { GameSettingsComponent } from './pages/game-settings/game-settings.component';
+import { StudentsComponent } from './dialogs/students/students.component';
+import { CreateStudentsComponent } from './dialogs/create-students/create-students.component';
+import { ViewTracksComponent } from './dialogs/view-tracks/view-tracks.component';
+import { CreateTrackComponent } from './dialogs/create-track/create-track.component';
 
 
 @NgModule({
@@ -47,7 +52,12 @@ import { AnsweredTracksDialogComponent } from './dialogs/answered-tracks-dialog/
     FinishDialogComponent,
     ConsultComponent,
     PerformanceDialogComponent,
-    AnsweredTracksDialogComponent
+    AnsweredTracksDialogComponent,
+    GameSettingsComponent,
+    StudentsComponent,
+    CreateStudentsComponent,
+    ViewTracksComponent,
+    CreateTrackComponent
   ],
   imports: [
     BrowserModule,

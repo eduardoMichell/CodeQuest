@@ -388,7 +388,7 @@ export class GameService {
       this.phasesStatus[index].completed = true;
       this.phasesStatus[index].current = false;
       this.phasesStatus[index].time = this.formatTime(phase.totalTime);
-      this.phasesStatus[index].score = phase.totalScore; 
+      this.phasesStatus[index].score = phase.totalScore;
       this.setNextPhaseActive(index + 1);
     }
   }
@@ -430,7 +430,7 @@ export class GameService {
     this.selectedQuestionIndex = 0; // Reset the question index when selecting a new phase
   }
 
-  getSelectedPhaseIndex(){
+  getSelectedPhaseIndex() {
     return this.selectedPhaseIndex;
   }
 
