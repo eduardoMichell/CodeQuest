@@ -1,0 +1,31 @@
+<div class="game-container">
+    <h1>Escolha uma fase</h1>
+    <h2>Pontuação Atual: {{currentScore}}</h2>
+    <div class="phases-container">
+      <div *ngFor="let phase of phasesStatus; let i = index" 
+           [class.completed]="phase.completed"
+           [class.current]="phase.current"
+           [class.locked]="phase.locked"
+           [class.clickable]="!phase.completed && !phase.locked"
+           (click)="selectPhase(i)">
+        <div class="phase-title">Fase {{i}}</div>
+        <div class="phase-status">
+          <ng-container *ngIf="phase.completed">
+            <div>
+              <span class="completed-icon">✔</span>
+              <span class="time">{{ getFormattedTime(i) }}</span>
+            </div>
+            <span class="score">Pontuação: {{ getScore(i) }}</span>
+          </ng-container>
+          <ng-container *ngIf="phase.current && !phase.completed">
+            <span class="current-icon">▼</span>
+          </ng-container>
+          <ng-container *ngIf="phase.locked">
+            <span class="locked-icon">🔒</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <button (click)="finish()" [disabled]="!allPhasesCompleted()">Finalizar</button>
+  </div>
+  

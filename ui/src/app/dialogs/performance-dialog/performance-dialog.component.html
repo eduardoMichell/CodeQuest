@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <h1>Desempenho</h1>
+  <ul class="performance-list">
+    <li>Total de trilhas jogadas: {{ data.totalTracksPlayed }}</li>
+    <li>Total de perguntas respondidas: {{ data.totalQuestionsAnswered }}</li>
+    <li>Total de perguntas respondidas corretamente: {{ data.totalCorrectAnswers }}</li>
+    <li>Total de perguntas respondidas incorretamente: {{ data.totalIncorrectAnswers }}</li>
+    <li>Total de pontos: {{ data.totalPoints }}</li>
+  </ul>
+  <p class="motivational-quote">"{{ motivationalQuote }}"</p>
+  <div class="dialog-actions">
+    <button mat-button (click)="onClose()">Fechar</button>
+  </div>
+</div>

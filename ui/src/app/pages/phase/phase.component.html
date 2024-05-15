@@ -1,0 +1,14 @@
+<div class="phase-container" *ngIf="question">
+  <div class="timer">{{ timer * 1000 | date:'mm:ss':'UTC' }}</div>
+  <div class="question-container">
+      <div class="question-number">{{ getQuestionNumber() }} - </div>
+      <div class="question">{{ question.question }}</div>
+      <div class="score" [class.double]="scoreMultiplier">{{ scoreMultiplier ? question.rate * 2 : question.rate }}</div>
+    </div>
+    <ul class="options">
+      <li *ngFor="let option of question.options; let i = index" (click)="selectOption(i)">
+        {{ getOptionLetter(i) }}) {{ option }}
+      </li>
+    </ul>
+  </div>
+  

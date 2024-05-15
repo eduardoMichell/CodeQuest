@@ -5,6 +5,7 @@ const authentication = require('../services/authentication');
 const userSchema = new Schema({
     name: {
         type: String,
+        required: true,
     },
     email: {
         type: String,
@@ -18,10 +19,18 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
+    enrollment: {
+        type: String,
+        required: true,
+    },
 }, { collection: 'users' });
 
 userSchema.pre("save", async function (next) {
+    if (!this.isModified('password')) {
+        return next();
+    }
+
     const newPass = await authentication.hashPassword(this.password);
     if (newPass.error) {
         return new Promise((resolve, reject) => {

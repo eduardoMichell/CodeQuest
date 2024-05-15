@@ -67,6 +67,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     user-select: none;
+    text-align: center;
 }
 
 .mat-form-field-appearance-outline {

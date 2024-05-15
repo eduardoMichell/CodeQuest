@@ -1,0 +1,55 @@
+.dialog-container {
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  width: 600px;
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+  background-color: #333; 
+  color: #fff; 
+  border-radius: 8px; 
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #ff8533; 
+}
+
+.performance-list {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.2em;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.performance-list li {
+  margin-bottom: 10px;
+}
+
+.motivational-quote {
+  font-style: italic;
+  margin: 20px 0;
+  color: #ff8533;
+}
+
+.dialog-actions {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff8533;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #fce2d1;
+  color: #333;
+}

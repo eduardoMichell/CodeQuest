@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from 'src/app/services/header-service/header.service';
 import { UserService } from 'src/app/services/user-service/user.service';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,12 +14,9 @@ export class HeaderComponent {
     private headerService: HeaderService,
     public dialog: MatDialog,
     private userService: UserService
-  ) {
-  }
+  ) {}
 
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   isLogged() {
     return this.userService.isLogged();
@@ -31,22 +27,19 @@ export class HeaderComponent {
     window.location.reload();
   }
 
- 
-
   get title(): string {
-    return this.headerService.headerData.title
+    return this.headerService.headerData.title;
   }
 
   get icon(): string {
-    return this.headerService.headerData.icon
+    return this.headerService.headerData.icon;
   }
 
   get routeUrl(): string {
-    return this.headerService.headerData.routeUrl
+    return this.headerService.headerData.routeUrl;
   }
 
-  userIsAdmin(){
+  userIsAdmin() {
     return this.userService.isAdmin();
   }
-
 }

@@ -6,9 +6,7 @@ import { environment } from "../../../environments/environment";
 import { map } from 'rxjs/operators';
 
 const USER_KEY = 'auth-user';
-
 const API_URL = environment.API_URL + "/auth/";
-
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

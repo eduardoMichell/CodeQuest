@@ -62,8 +62,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const { name, email, password, isAdmin } = req.body;
-
+    const { name, email, password, enrollment , isAdmin } = req.body;
     if (await User.findOne({ email }).exec()) {
         return res.status(409).json({
             error: true,
@@ -72,7 +71,15 @@ router.post('/register', async (req, res) => {
         });
     }
 
-    const user = new User({  name, email, password, isAdmin });
+    if (await User.findOne({ enrollment  }).exec()) {
+        return res.status(409).json({
+            error: true,
+            message: "Enrollment already registered!",
+            result: {}
+        });
+    }
+    
+    const user = new User({  name, email, password, enrollment , isAdmin });
     const token = await auth.createAccessToken(user.id);
     user.save((error, doc) => {
         if (error) {
@@ -234,6 +241,43 @@ router.post('/forgot-passoword', async (req, res) => {
             message: err.message,
             result: {}
         })
+    }
+});
+
+router.put("/update/:id", async (req, res) => {
+    const { name, cpf, email, phone } = req.body;
+
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json(
+                {
+                    error: true,
+                    message: 'User not found',
+                    result: {}
+                }
+            );
+        }
+
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.cpf = cpf || user.cpf;
+        user.phone = phone || user.phone;
+
+        const updatedUser = await user.save();
+        return res.status(201).json({
+            error: false,
+            message: "Success updating user",
+            result: {
+                user: updatedUser,
+            }
+        });
+    } catch (error) {
+        res.status(501).json({
+            error: true,
+            message: error.message,
+            result: {}
+        });
     }
 });
 

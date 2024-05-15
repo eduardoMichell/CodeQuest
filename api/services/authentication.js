@@ -13,29 +13,29 @@ const authPassword = async (password, hash) => {
   }
 }
 
+
 const createAccessToken = async (userID) => {
   try {
-    const now = (new Date()).getTime()
+    const now = Math.floor(Date.now() / 1000);  
     const secret = process.env.JWT_SECRET;
-    const token = jwt.sign({ userID, iat: now }, secret, { expiresIn: "1d" })
-    return { error: false, result: { userID, token, expiresIn: "1d", iat: now } }
+    const expiresIn = "1d"; 
+
+    const token = jwt.sign({ userID, iat: now }, secret, { expiresIn });
+    return { error: false, result: { userID, token, expiresIn, iat: now } };
   } catch (error) {
-    return { error: false, result: null }
+    return { error: true, result: null, message: error.message };
   }
 }
 
 const verifyAccessToken = async (token) => {
   try {
     const secret = process.env.JWT_SECRET;
-    const result = jwt.verify(token, secret);
-    const now = new Date();
-    const expired = result.exp - now < 0;
-    if (expired) {
-      return { auth: false, token: result };
-    }
+    const result = jwt.verify(token, secret); // Verifica o token e lida com a expiração
+
     return { auth: true, token: result };
   } catch (e) {
-    return { auth: false, token: null }
+    console.error('Token verification failed:', e.message); // Loga a mensagem de erro para depuração
+    return { auth: false, token: null, message: e.message }; // Adiciona a mensagem de erro à resposta
   }
 }
 

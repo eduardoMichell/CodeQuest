@@ -1,0 +1,31 @@
+<div class="modal">
+    <div class="modal-header">
+      <h2>Ranking</h2>
+    </div>
+    <div class="modal-body">
+      <table class="ranking-table">
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Nome</th>
+            <th>Pontuação Total</th>
+            <th>Taxa de Vitória</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let player of ranking">
+            <td>{{player.posicao}}</td>
+            <td>{{player.nome}}</td>
+            <td>{{player.pontuacaoTotal}}</td>
+            <td>{{player.taxaVitoria}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="user-position">
+      Sua posição: {{userPos}}
+    </div>
+    <div class="modal-footer">
+      <button (click)="close()">Fechar</button>
+    </div>
+  </div>

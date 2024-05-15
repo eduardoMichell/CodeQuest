@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
 export class HeaderService {
 
   _headerData = new BehaviorSubject<HeaderData>({
-    title: '',
+    title: 'Tela Inicial',
     icon: '',
     routeUrl: ''
   })
