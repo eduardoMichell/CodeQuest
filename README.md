@@ -77,7 +77,6 @@ cd CodeQuest
     ```bash
     npm install
     ```
-	
 #### API em Node.js
 
 1. Navegue até o diretório `api`:
@@ -94,6 +93,7 @@ cd CodeQuest
     MONGO_URL=
     JWT_SECRET=
     ```
+4. **OBS: Caso modifique a porta da API, altere a variável `API_URL` no `environment.ts` na UI do Angular.**
 	
 ## Executar a Aplicação
 
@@ -119,7 +119,7 @@ cd CodeQuest
     ```bash
     npm start
     ```
-3. A API estará disponível em `http://localhost:3000`.
+3. A API estará disponível em `http://localhost:3001`.
 
 ## Estrutura do Projeto
 
