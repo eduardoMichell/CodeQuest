@@ -1,0 +1,27 @@
+<div class="dialog-container">
+  <h1>Alunos</h1>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Matrícula</th>
+          <th>Nome</th>
+          <th>Pontuação Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students.data">
+          <td>{{ student.enrollment }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.totalScore }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="dialog-actions">
+    <button mat-button (click)="onClose()">Fechar</button>
+    <button mat-button (click)="generateReport()">Gerar Relatório</button>
+    <button mat-button (click)="downloadTemplate()">Template</button>
+    <button mat-button (click)="addStudent()">Adicionar Aluno</button>
+  </div>
+</div>

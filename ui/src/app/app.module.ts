@@ -32,10 +32,15 @@ import { ConsultComponent } from './pages/consult/consult.component';
 import { PerformanceDialogComponent } from './dialogs/performance-dialog/performance-dialog.component';
 import { AnsweredTracksDialogComponent } from './dialogs/answered-tracks-dialog/answered-tracks-dialog.component';
 import { GameSettingsComponent } from './pages/game-settings/game-settings.component';
-import { StudentsComponent } from './dialogs/students/students.component';
-import { CreateStudentsComponent } from './dialogs/create-students/create-students.component';
 import { ViewTracksComponent } from './dialogs/view-tracks/view-tracks.component';
-import { CreateTrackComponent } from './dialogs/create-track/create-track.component';
+import { TrackDialogComponent } from './dialogs/track-dialog/track-dialog.component';
+import { FromCharCodePipe } from './core/pipes/from-char-code.pipe';
+import { MatSelectModule } from '@angular/material/select'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { StudentsDialogComponent } from './dialogs/students-dialog/students-dialog.component';
+import { MatTableModule } from '@angular/material/table';
+import { CreateStudentsDialogComponent } from './dialogs/create-students-dialog/create-students-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -54,10 +59,12 @@ import { CreateTrackComponent } from './dialogs/create-track/create-track.compon
     PerformanceDialogComponent,
     AnsweredTracksDialogComponent,
     GameSettingsComponent,
-    StudentsComponent,
-    CreateStudentsComponent,
     ViewTracksComponent,
-    CreateTrackComponent
+    TrackDialogComponent,
+    FromCharCodePipe,
+    StudentsDialogComponent,
+    CreateStudentsDialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -78,7 +85,12 @@ import { CreateTrackComponent } from './dialogs/create-track/create-track.compon
     MatButtonModule,
     HttpClientModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatCheckboxModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

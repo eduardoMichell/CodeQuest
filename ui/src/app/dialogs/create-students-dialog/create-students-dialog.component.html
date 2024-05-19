@@ -1,0 +1,28 @@
+<div class="dialog-container">
+    <h1>Adicionar Alunos</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 100px;">Matrícula</th>
+            <th>Nome</th>
+            <th style="width: 150px;">Adicionar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students.data">
+            <td>{{ student.enrollment }}</td>
+            <td>{{ student.name }}</td>
+            <td>
+              <mat-checkbox [(ngModel)]="student.add" [disableRipple]="true"></mat-checkbox>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dialog-actions">
+      <button mat-button (click)="onClose()">Fechar</button>
+      <button mat-button (click)="onAddStudents()">Adicionar Alunos</button>
+    </div>
+  </div>
+  

@@ -55,4 +55,10 @@ export class GameSettingsComponent implements OnInit {
     });
   }
 
+  openCreateTrackDialog(): void {
+    this.gameService.openTrackDialog(false);
+  }
+  
+ 
+
 }

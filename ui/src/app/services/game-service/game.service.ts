@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TrackDialogComponent } from 'src/app/dialogs/track-dialog/track-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class GameService {
   private selectedQuestionIndex: number = 0;
   private answers: any = []; // Array para armazenar as respostas de cada fase
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
   }
 
   setSelectedGame(game: any) {
@@ -486,4 +488,32 @@ export class GameService {
   setGame(game: any) {
     this.selectedGame = game;
   }
+
+  openTrackDialog(isEdit: boolean, track: any = null): void {
+    const dialogRef = this.dialog.open(TrackDialogComponent, {
+      data: { isEdit, track }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (isEdit) {
+          // this.trackService.updateTrack(result).subscribe(response => {
+          //   console.log('Trilha atualizada com sucesso:', response);
+          // }, error => {
+          //   console.error('Erro ao atualizar trilha:', error);
+          // });
+        } else {
+                     console.log('Trilha criada com sucesso:', result);
+
+        //   this.trackService.createTrack(result).subscribe(response => {
+        //     console.log('Trilha criada com sucesso:', response);
+        //   }, error => {
+        //     console.error('Erro ao criar trilha:', error);
+        //   });
+        // }
+        }
+      }
+    });
+  }
+
 }

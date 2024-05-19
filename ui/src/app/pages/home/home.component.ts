@@ -6,6 +6,7 @@ import { SelectGameComponent } from 'src/app/components/game/select-game/select-
 import { RankingComponent } from 'src/app/components/game/ranking/ranking.component';
 import { GameService } from 'src/app/services/game-service/game.service';
 import { Router } from '@angular/router';
+import { StudentsDialogComponent } from 'src/app/dialogs/students-dialog/students-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -56,7 +57,10 @@ export class HomeComponent implements AfterContentInit {
 
   openGameSettings(){
     this.router.navigate(['/settings']);
-    console.log("teste")
+  }
+
+  openStudents(){
+    this.dialog.open(StudentsDialogComponent, {});
   }
 
 }

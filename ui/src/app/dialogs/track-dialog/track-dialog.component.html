@@ -1,0 +1,64 @@
+<div class="dialog-container">
+  <h1>{{ isEdit ? 'Editar' : 'Criar' }} Trilha</h1>
+  <form [formGroup]="trackForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" style="margin-right: 5px;">
+      <mat-label>Tema</mat-label>
+      <input matInput formControlName="theme">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="margin-left: 5px;">
+      <mat-label>Dificuldade</mat-label>
+      <mat-select formControlName="difficulty">
+        <mat-option *ngFor="let difficulty of difficulties" [value]="difficulty">{{ difficulty }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+ 
+    <div formArrayName="phases">
+      <div *ngFor="let phase of phases.controls; let i = index" [formGroupName]="i" class="phase-container">
+        <h2>Fase {{ i + 1 }}</h2>
+        <div formArrayName="questions">
+          <div *ngFor="let question of getQuestions(i).controls; let j = index" [formGroupName]="j" class="question-container">
+            <h3>Pergunta {{ j + 1 }}</h3>
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Pergunta</mat-label>
+              <input matInput formControlName="question">
+            </mat-form-field>
+            
+            <div formArrayName="alternatives" class="alternatives-container">
+              <div *ngFor="let alternative of getAlternatives(i, j).controls; let k = index" class="alternative">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Alternativa {{ (65 + k) | fromCharCode }}</mat-label>
+                  <input matInput [formControlName]="k">
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="time-and-correct-rate">
+              <mat-form-field appearance="outline">
+                <mat-label>Correta</mat-label>
+                <mat-select formControlName="correct">
+                  <mat-option *ngFor="let k of [0, 1, 2, 3]" [value]="k">{{ (65 + k) | fromCharCode }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Tempo (segundos)</mat-label>
+                <input matInput formControlName="time" type="number">
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Pontuação</mat-label>
+                <input matInput formControlName="rate" type="number">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button mat-button type="button" (click)="onClose()">Fechar</button>
+      <button mat-button type="submit">{{ isEdit ? 'Editar' : 'Criar' }}</button>
+    </div>
+  </form>
+</div>

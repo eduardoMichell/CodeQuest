@@ -3,7 +3,6 @@
   padding: 20px;
   font-family: Arial, sans-serif;
   max-width: 1000px;
-  width: 800px;
   margin: 0 auto;
   background-color: #333;
   color: #fff;
@@ -18,7 +17,6 @@ h1 {
 
 .table-container {
   max-height: 400px;
-  /* height: 400px; */
   overflow-y: auto;
   margin-bottom: 20px;
   border: 1px solid #444;
@@ -53,8 +51,6 @@ tbody tr:nth-child(even) {
   background-color: #666;
 }
 
-
-
 td button {
   padding: 8px 12px;
   font-size: 0.9em;
@@ -73,6 +69,8 @@ td button:hover {
 
 .dialog-actions {
   margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
 }
 
 button {

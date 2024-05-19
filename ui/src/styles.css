@@ -1,3 +1,4 @@
+
 .red {
     color: rgb(238, 90, 98);
 }
@@ -27,51 +28,119 @@ body {
     background-color: #303030;
 }
 
-
-.button {
-    width: 300px;
-    height: 225px;
-    margin: 10px;
-    background-color: #909090;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 25px;
-    cursor: pointer;
-}
-
-.button:hover{
-    background-color: #818181;
-}
-
-.button:active{
-    background-color: #646464;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu-container{
+.menu-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     flex-direction: row;
-}
-
-.button-text{
+    background-color: #222; /* Fundo escuro */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espaçamento entre os botões */
+  }
+  
+  .button {
+    width: 300px;
+    height: 225px;
+    margin: 10px;
+    background-color: #ff8533; /* Fundo laranja */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button:hover {
+    background-color: #ff9b54; /* Fundo laranja mais claro no hover */
+    transform: translateY(-5px); /* Levanta o botão no hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .button:active {
+    background-color: #e57324; /* Fundo laranja mais escuro no active */
+    transform: translateY(0); /* Volta ao nível original ao clicar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-text {
     font-size: 3rem;
     font-weight: 500;
     cursor: pointer;
     user-select: none;
     text-align: center;
-}
+    color: #fff; /* Texto branco */
+  }
 
 .mat-form-field-appearance-outline {
     --mdc-outlined-text-field-caret-color: #4285F4;  
     --mdc-outlined-text-field-focus-outline-color: #4285F4;  
     --mdc-outlined-text-field-focus-label-text-color: rgba(66, 133, 244, 0.87); 
+    --mat-select-focused-arrow-color:#4285F4;
+    --mat-option-selected-state-label-text-color:#4285F4;
+}
+.mdc-checkbox__ripple { display: none; }
+
+.mat-select-value-text {
+  color: #4285F4 !important;
+}
+
+.mat-option.mat-selected .mat-option-text {
+  color: #4285F4 !important;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(0deg, #3A3A3A, #3A3A3A);
+  border: 0.1px solid rgba(0, 0, 0, 1);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: none;
+}
+
+.mat-form-field-appearance-outline .mat-select-arrow {
+  color: #4285F4;
+}
+
+.mat-select-focused .mat-select-arrow {
+  color: #4285F4;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-ripple {
+  background-color: #4285F4;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #4285F4;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  color: rgba(66, 133, 244, 0.87);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label.mat-form-field-empty.mat-form-field-label-floating {
+  color: rgba(66, 133, 244, 0.87);
+}
+
+.mat-select-arrow {
+  color: #4285F4;
+}
+
+.mat-select-focused .mat-select-arrow {
+  color: #4285F4;
+}
+
+.mat-form-field-outline-thick {
+  stroke: #4285F4;
 }

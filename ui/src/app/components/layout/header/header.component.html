@@ -1,27 +1,26 @@
 <mat-toolbar class="header mat-elevation-z4">
-    <span>
-      <a routerLink="/home">
-        <img class="logo" src="../../../../assets/imgs/logo.png" alt="logo">
-      </a>
-    </span>
-    <span class="title-group">
-      <a>
-        <i class="material-icons">
-           {{ icon }}
-        </i>
-        {{ title }}
-      </a>
-    </span>
-    <span class="icon-group">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="isLogged()">
-        <mat-icon>menu</mat-icon>
+  <span>
+    <a routerLink="/home">
+      <img class="logo" src="../../../../assets/imgs/logo.png" alt="logo">
+    </a>
+  </span>
+  <span class="title-group">
+    <a>
+      <i class="material-icons">
+        {{ icon }}
+      </i>
+      {{ title }}
+    </a>
+  </span>
+  <span class="icon-group">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="isLogged()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
       </button>
-      <mat-menu #menu="matMenu">
-       
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Logout</span>
-        </button>
-      </mat-menu>
-    </span>
-  </mat-toolbar>
+    </mat-menu>
+  </span>
+</mat-toolbar>

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import jsPDF from 'jspdf';
+import { GameService } from 'src/app/services/game-service/game.service';
 
 @Component({
   selector: 'app-view-tracks',
@@ -10,6 +11,7 @@ import jsPDF from 'jspdf';
 export class ViewTracksComponent {
   constructor(
     public dialogRef: MatDialogRef<ViewTracksComponent>,
+    private gameService: GameService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -28,7 +30,7 @@ export class ViewTracksComponent {
   }
 
   editTrack(track: any): void {
-    // Lógica para editar a trilha
-    console.log(`Editar trilha: ${track.theme}`);
+    this.onClose();
+    this.gameService.openTrackDialog(true, track);
   }
 }
