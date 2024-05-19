@@ -43,3 +43,96 @@ cheguem até o final.
 
 Todos os alunos e o professor devem conseguir usar o jogo sem necessidade de
 treinamento ou suporte.
+
+Este repositório contém duas partes principais:
+1. **UI em Angular**: Frontend da aplicação.
+2. **API em Node.js**: Backend da aplicação.
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
+
+- [Node.js](https://nodejs.org/) (versão 20 ou superior)
+- [Angular CLI](https://angular.io/cli) (versão 16 ou superior)
+- [Git](https://git-scm.com/)
+
+## Instalação
+
+### Clonar o Repositório
+
+```bash
+git https://github.com/eduardoMichell/CodeQuest.git
+cd CodeQuest
+```
+
+### Instalar Dependências
+
+#### UI em Angular
+
+1. Navegue até o diretório `ui`:
+    ```bash
+    cd ui
+    ```
+2. Instale as dependências:
+    ```bash
+    npm install
+    ```
+	
+#### API em Node.js
+
+1. Navegue até o diretório `api`:
+    ```bash
+    cd ../api
+    ```
+2. Instale as dependências:
+    ```bash
+    npm install
+    ```
+3. Crie um arquivo `local.env` no diretório `api` com o seguinte conteúdo:
+    ```plaintext
+    PORT=3001
+    MONGO_URL=
+    JWT_SECRET=
+    ```
+	
+## Executar a Aplicação
+
+### Executar a UI em Angular
+
+1. Navegue até o diretório `ui`:
+    ```bash
+    cd ui
+    ```
+2. Execute o servidor de desenvolvimento:
+    ```bash
+    ng serve
+    ```
+3. Abra o navegador e acesse `http://localhost:4200`.
+
+### Executar a API em Node.js
+
+1. Navegue até o diretório `api`:
+    ```bash
+    cd ../api
+    ```
+2. Execute o servidor:
+    ```bash
+    npm start
+    ```
+3. A API estará disponível em `http://localhost:3000`.
+
+## Estrutura do Projeto
+
+```
+CodeQuest/
+├── api/        # Backend em Node.js
+│   ├── src/
+│   ├── package.json
+│   └── ...
+├── ui/         # Frontend em Angular
+│   ├── src/
+│   ├── angular.json
+│   └── ...
+├── README.md   # Este arquivo
+└── ...
+```
