@@ -13,7 +13,7 @@ export class UtilsService {
       duration: 3000,
       horizontalPosition: 'right',
       verticalPosition: 'top',
-      panelClass: isError ? ['msg-error'] : ['msg-success']
+      panelClass: isError ? 'msg-error' : 'msg-success'
     });
   }
 

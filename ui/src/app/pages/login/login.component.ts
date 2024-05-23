@@ -24,14 +24,14 @@ export class LoginComponent implements OnInit {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(this.username) && this.password.length > 0) {
       this.userService.login(this.username, this.password).subscribe((data: any) => {
-          if (!data.error && data.result.token) {
-            this.router.navigate(['/home']);
-          } else {
-            this.error = data.message;
-          }
-        }, error => {
-          this.error = error.error.message;
+        if (!data.error && data.result.token) {
+          this.router.navigate(['/home']);
+        } else {
+          this.error = data.message;
         }
+      }, error => {
+        this.error = error.error.message;
+      }
       );
     } else {
       this.error = 'Please enter a valid email and password';

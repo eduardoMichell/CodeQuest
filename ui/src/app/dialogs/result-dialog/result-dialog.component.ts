@@ -18,10 +18,10 @@ export class ResultDialogComponent {
  
 
   isCorrect(): boolean {
-    return this.data.message === 'Você Acertou!';
+    return this.data.isCorrect;
   }
 
   isTimeUp(): boolean {
-    return this.data.message === 'O tempo acabou!';
+    return this.data.timeEnd;
   }
 }

@@ -8,40 +8,27 @@ import { GameService } from 'src/app/services/game-service/game.service';
   templateUrl: './select-game.component.html',
   styleUrls: ['./select-game.component.css']
 })
-export class SelectGameComponent {
+export class SelectGameComponent implements OnInit {
+  games: any[] = [];
+  selectedGame: any = null;
+  
   constructor(
     public dialogRef: MatDialogRef<SelectGameComponent>,
     private router: Router,
     private gameService: GameService
   ) {
   }
-
-  games = [
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-    { tema: 'Tema 1', dificuldade: 'Fácil', jogado: 'Sim' },
-    { tema: 'Tema 2', dificuldade: 'Médio', jogado: 'Não' },
-    { tema: 'Tema 3', dificuldade: 'Difícil', jogado: 'Sim' },
-
-    // Add more games as needed
-  ];
-  selectedGame = null;
+  ngOnInit(): void {
+    this.gameService.getGames().subscribe(
+      (data: any) => {
+        console.log("getGames() ::", data.result.games)
+        this.games = data.result.games;
+      },
+      (error) => {
+        console.error('Error loading games', error);
+      }
+    );
+  }
 
   selectRow(game: any) {
     this.selectedGame = game;
@@ -53,9 +40,15 @@ export class SelectGameComponent {
 
   start() {
     if (this.selectedGame) {
-      this.gameService.setSelectedGame(this.selectedGame);
-      this.router.navigate(['/game'], { state: { selectedGame: this.selectedGame } });
-      this.dialogRef.close();
+      this.gameService.getGameById(this.selectedGame._id).subscribe((data: any) => {
+        const selectedGame = data.result;
+        this.gameService.setSelectedGame(selectedGame);
+        this.router.navigate(['/game'], { state: { selectedGame: selectedGame } });
+        this.dialogRef.close();
+      }, (error: any) => {
+        console.error('Error fetching selected game', error);
+      }
+      );
     }
   }
 }

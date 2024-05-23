@@ -10,7 +10,8 @@ export class FinishDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<FinishDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+  }
 
   onConfirm(): void {
     this.dialogRef.close();

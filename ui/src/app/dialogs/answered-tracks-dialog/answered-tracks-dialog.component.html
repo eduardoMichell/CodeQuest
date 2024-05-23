@@ -6,15 +6,15 @@
           <tr>
             <th>Tema</th>
             <th>Dificuldade</th>
-            <th>Jogos</th>
+            <th>Jogado</th>
             <th>Relatório</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let track of data.tracks">
+          <tr *ngFor="let track of data">
             <td>{{ track.theme }}</td>
             <td style="width: 100px;">{{ track.difficulty }}</td>
-            <td style="width: 50px;">{{ track.games }}</td>
+            <td style="width: 50px;">{{ track.played ? "Sim" : "Não" }}</td>
             <td style="width: 100px;"><button (click)="generatePDF(track)">Baixar PDF</button></td>
           </tr>
         </tbody>

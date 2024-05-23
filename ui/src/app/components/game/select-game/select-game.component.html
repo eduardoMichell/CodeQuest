@@ -1,27 +1,27 @@
 <div class="modal">
-    <div class="modal-header">
-      <h2>Trilhas</h2>
-    </div>
-    <div class="modal-body">
-      <table class="game-table">
-        <thead>
-          <tr>
-            <th>Tema</th>
-            <th>Dificuldade</th>
-            <th>Jogado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let game of games" (click)="selectRow(game)" [class.selected]="game === selectedGame">
-            <td>{{game.tema}}</td>
-            <td>{{game.dificuldade}}</td>
-            <td>{{game.jogado}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="modal-footer">
-      <button (click)="cancel()">Cancelar</button>
-      <button (click)="start()" [disabled]="!selectedGame">Começar</button>
-    </div>
+  <div class="modal-header">
+    <h2>Trilhas</h2>
   </div>
+  <div class="modal-body">
+    <table class="game-table">
+      <thead>
+        <tr>
+          <th>Tema</th>
+          <th>Dificuldade</th>
+          <th>Jogado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let game of games" (click)="selectRow(game)" [class.selected]="game === selectedGame">
+          <td>{{game.theme}}</td>
+          <td>{{game.difficulty}}</td>
+          <td>{{game.alreadyPlayed ? "Sim" : "Não"}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button (click)="cancel()">Cancelar</button>
+    <button (click)="start()" [disabled]="!selectedGame">Começar</button>
+  </div>
+</div>

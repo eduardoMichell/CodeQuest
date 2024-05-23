@@ -11,7 +11,7 @@ export class TrackDialogComponent implements OnInit {
   trackForm!: FormGroup;
   isEdit: boolean;
 
-  difficulties = ['Fácil', 'Iniciante', 'Intermediário', 'Avançado'];
+  difficulties = ['Iniciante', 'Intermediário', 'Avançado'];
  
   constructor(
     private fb: FormBuilder,

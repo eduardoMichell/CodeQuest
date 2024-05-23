@@ -5,6 +5,11 @@
     </a>
   </span>
   <span class="title-group">
+    <a *ngIf="!isHome" (click)="goBack()" style="cursor: pointer;">
+      <i class="material-icons">
+        arrow_back
+      </i>
+    </a>
     <a>
       <i class="material-icons">
         {{ icon }}

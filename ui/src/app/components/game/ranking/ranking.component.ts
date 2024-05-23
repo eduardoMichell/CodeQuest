@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { AnswerService } from 'src/app/services/answer-service/answer.service';
+import { UtilsService } from 'src/app/services/utils-service/utils.service';
 
 @Component({
   selector: 'app-ranking',
@@ -7,25 +9,29 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./ranking.component.css']
 })
 export class RankingComponent {
+  ranking: any = [];
+  userPos: number = 0;
   constructor(
     public dialogRef: MatDialogRef<RankingComponent>,
+    private answerService: AnswerService,
+    private utils: UtilsService
   ){}
 
-  ranking = [
-    { posicao: 1, nome: 'Jogador 1', pontuacaoTotal: 1200, taxaVitoria: '75%' },
-    { posicao: 2, nome: 'Jogador 2', pontuacaoTotal: 1100, taxaVitoria: '70%' },
-    { posicao: 3, nome: 'Jogador 3', pontuacaoTotal: 1050, taxaVitoria: '65%' },
-    { posicao: 4, nome: 'Jogador 1', pontuacaoTotal: 1200, taxaVitoria: '75%' },
-    { posicao: 5, nome: 'Jogador 2', pontuacaoTotal: 1100, taxaVitoria: '70%' },
-    { posicao: 6, nome: 'Jogador 3', pontuacaoTotal: 1050, taxaVitoria: '65%' },
-    { posicao: 7, nome: 'Jogador 1', pontuacaoTotal: 1200, taxaVitoria: '75%' },
-    { posicao: 8, nome: 'Jogador 2', pontuacaoTotal: 1100, taxaVitoria: '70%' },
-    { posicao: 9, nome: 'Jogador 3', pontuacaoTotal: 1050, taxaVitoria: '65%' },
-    { posicao: 10, nome: 'Jogador 1', pontuacaoTotal: 1200, taxaVitoria: '75%' },
-    { posicao: 11, nome: 'Jogador 2', pontuacaoTotal: 1100, taxaVitoria: '70%' },
-    { posicao: 12, nome: 'Jogador 3', pontuacaoTotal: 1050, taxaVitoria: '65%' },    
-  ];
-  userPos = 4;
+  ngOnInit(): void {
+    this.loadRanking();
+  }
+
+  loadRanking(): void {
+    this.answerService.getRanking().subscribe((data: any) => {
+        this.ranking = data.result.ranking;
+        this.userPos = data.result.userPos;
+      },(error: any) => {
+        console.error('Error loading ranking', error);
+        this.utils.showMessage('Erro ao carregar o ranking. Por favor, tente novamente mais tarde.', true);
+      }
+    );
+  }
+ 
 
   close() {
     this.dialogRef.close();

@@ -22,6 +22,8 @@ mongoose.connect(process.env.MONGO_URL, {
 authentication(app);
 
 app.use("/auth", require("./controllers/UserController"));
+app.use("/game", require("./controllers/GameController"));
+app.use("/answer", require("./controllers/AnswerController"));
 
 
 app.listen(PORT);

@@ -26,6 +26,7 @@
   /* Internet Explorer/Edge */
   user-select: none;
   /* Suporte padrão */
+  display: flex;
 }
 
 .header .title-group {

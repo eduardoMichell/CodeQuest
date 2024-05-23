@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService { 
+export class UserService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
@@ -75,4 +75,13 @@ export class UserService {
   public isAdmin() {
     const user = this.getUser();
     return user?.isAdmin || false;
-  }}
+  }
+
+  public getToken(): any {
+    const user = localStorage.getItem(USER_KEY);
+    if (user) {
+      return JSON.parse(user).token;
+    }
+    return {};
+  }
+}

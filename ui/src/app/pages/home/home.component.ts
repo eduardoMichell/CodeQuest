@@ -43,23 +43,23 @@ export class HomeComponent implements AfterContentInit {
     return this.userService.isLogged();
   }
 
-  selectGame() {
+  play() {
     this.dialog.open(SelectGameComponent, {});
   }
 
-  openRanking() {
+  ranking() {
     this.dialog.open(RankingComponent, {});
   }
 
-  openConsulting(){
+  consult(){
     this.router.navigate(['/consult']);
   }
 
-  openGameSettings(){
+  gameSettings(){
     this.router.navigate(['/settings']);
   }
 
-  openStudents(){
+  students(){
     this.dialog.open(StudentsDialogComponent, {});
   }
 

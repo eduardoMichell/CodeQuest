@@ -2,23 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AnsweredTracksDialogComponent } from 'src/app/dialogs/answered-tracks-dialog/answered-tracks-dialog.component';
 import { PerformanceDialogComponent } from 'src/app/dialogs/performance-dialog/performance-dialog.component';
+import { AnswerService } from 'src/app/services/answer-service/answer.service';
 import { GameService } from 'src/app/services/game-service/game.service';
 import { HeaderService } from 'src/app/services/header-service/header.service';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { UtilsService } from 'src/app/services/utils-service/utils.service';
 
 @Component({
   selector: 'app-consult',
   templateUrl: './consult.component.html',
   styleUrls: ['./consult.component.css']
 })
-export class ConsultComponent implements OnInit{
-
+export class ConsultComponent implements OnInit {
+  stats: any = null;
+  tracks: any = null;
   constructor(
     private headerService: HeaderService,
     public dialog: MatDialog,
     private userService: UserService,
-    private gameService: GameService
-
+    private answerService: AnswerService,
+    private utils: UtilsService
   ) {
   }
 
@@ -28,25 +31,42 @@ export class ConsultComponent implements OnInit{
       icon: '',
       routeUrl: ''
     };
+    this.loadUserStats();
+    this.loadTracks();
+
+  }
+
+  loadUserStats(): void {
+    this.answerService.getUserStats().subscribe((data: any) => {
+      this.stats = data.result;
+    }, (error: any) => {
+      this.utils.showMessage('Erro ao carregar as estatísticas do usuário. Por favor, tente novamente mais tarde.', true);
+    }
+    );
+  }
+
+  loadTracks(): void {
+    this.answerService.getTracks().subscribe((data: any) => {
+      console.log(data)
+      this.tracks = data.result;
+    }, (error: any) => {
+      console.error('Error loading themes', error);
+      this.utils.showMessage('Erro ao carregar os temas. Por favor, tente novamente mais tarde.', true);
+    }
+    );
   }
 
   isAdmin() {
     return this.userService.isAdmin();
   }
-  
+
   isLogged() {
     return this.userService.isLogged();
   }
 
   openPerformanceDialog(): void {
     const dialogRef = this.dialog.open(PerformanceDialogComponent, {
-      data: {
-        totalTracksPlayed: 10,
-        totalQuestionsAnswered: 100,
-        totalCorrectAnswers: 80,
-        totalIncorrectAnswers: 20,
-        totalPoints: 1500
-      }
+      data: this.stats
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -56,28 +76,7 @@ export class ConsultComponent implements OnInit{
 
   openAnsweredTracksDialog(): void {
     const dialogRef = this.dialog.open(AnsweredTracksDialogComponent, {
-      data: {
-        tracks: [
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 },
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 },
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 },
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 },
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 },
-          { theme: 'Matemática', difficulty: 'Fácil', games: 5, totalPoints: 100 },
-          { theme: 'História', difficulty: 'Médio', games: 3, totalPoints: 80 },
-          { theme: 'Ciências', difficulty: 'Difícil', games: 4, totalPoints: 90 }
-        ]
-      }
+      data: this.tracks
     });
 
     dialogRef.afterClosed().subscribe(result => {

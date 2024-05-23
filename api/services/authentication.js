@@ -30,12 +30,11 @@ const createAccessToken = async (userID) => {
 const verifyAccessToken = async (token) => {
   try {
     const secret = process.env.JWT_SECRET;
-    const result = jwt.verify(token, secret); // Verifica o token e lida com a expiração
-
-    return { auth: true, token: result };
+    const decoded = jwt.verify(token, secret);
+    return { auth: true, token: decoded, userID: decoded.userID};
   } catch (e) {
-    console.error('Token verification failed:', e.message); // Loga a mensagem de erro para depuração
-    return { auth: false, token: null, message: e.message }; // Adiciona a mensagem de erro à resposta
+    console.error('Token verification failed:', e.message); 
+    return { auth: false, token: null, message: e.message };
   }
 }
 

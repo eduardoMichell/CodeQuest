@@ -30,7 +30,6 @@ export class PhaseComponent {
       this.router.navigate(['/game']);
     } else {
       this.timer = this.question.time;
-      console.log(this.timer)
       this.startTimer();
     }
   }
@@ -76,37 +75,39 @@ export class PhaseComponent {
     const message = isCorrect ? 'Você Acertou!' : 'Você Errou!';
     const points = isCorrect ? this.question.rate : 0;
 
-    this.openResultDialog(message, points, this.scoreMultiplier);
+    this.openResultDialog(message, points, this.scoreMultiplier, isCorrect, false);
+
   }
 
   handleTimerEnd(): void {
-    this.gameService.setAnswer(false, -1, false); // Marca a resposta como errada se o tempo acabar
+    this.gameService.setAnswer(false, -1, false);
     this.recordTimeSpent();
-    this.openResultDialog('O tempo acabou!', 0, false);
+    this.openResultDialog('O tempo acabou!', 0, false, false, true);
   }
 
   recordTimeSpent(): void {
     const timeSpent = Math.ceil((Date.now() - this.startTime) / 1000);
-    const minimumTimeSpent = Math.max(timeSpent, 1); // Garante que o tempo gasto seja no mínimo de 1 segundo
+    const minimumTimeSpent = Math.max(timeSpent, 1);
     this.gameService.addTimeToPhase(minimumTimeSpent);
   }
 
   getOptionLetter(index: number): string {
-    return String.fromCharCode(65 + index); // Converte o índice para letra (A, B, C, etc.)
+    return String.fromCharCode(65 + index);
   }
 
   getQuestionNumber(): number {
     return this.gameService.getSelectedQuestionIndex() + 1;
   }
 
-  openResultDialog(message: string, points: number, scoreMultiplier: boolean): void {
+  openResultDialog(message: string, points: number, scoreMultiplier: boolean, isCorrect: boolean, timeEnd: boolean = false): void {
     const dialogRef = this.dialog.open(ResultDialogComponent, {
-      data: { message: message, points: points, scoreMultiplier: scoreMultiplier }
+      data: { message: message, points: points, scoreMultiplier: scoreMultiplier, isCorrect, timeEnd }
     });
 
     dialogRef.afterClosed().subscribe(() => {
       if (this.gameService.nextQuestion()) {
-        this.ngOnInit(); // Carrega a próxima pergunta
+        this.ngOnInit();
+        this.scoreMultiplier = true;
       } else {
         console.log('Fase concluída!');
         this.gameService.completePhase(this.gameService.getSelectedPhaseIndex() || 0);

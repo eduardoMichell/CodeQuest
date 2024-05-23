@@ -4,6 +4,8 @@ import { HeaderService } from 'src/app/services/header-service/header.service';
 import { GameService } from 'src/app/services/game-service/game.service';
 import { FinishDialogComponent } from 'src/app/dialogs/finish-dialog/finish-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AnswerService } from 'src/app/services/answer-service/answer.service';
+import { UtilsService } from 'src/app/services/utils-service/utils.service';
 
 @Component({
   selector: 'app-game',
@@ -19,8 +21,10 @@ export class GameComponent implements OnInit {
     private router: Router,
     private headerService: HeaderService,
     private gameService: GameService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private answerService: AnswerService,
+    private utils: UtilsService
+  ) { }
 
   ngOnInit() {
     this.game = this.gameService.getSelectedGame();
@@ -62,9 +66,23 @@ export class GameComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.router.navigate(['/home']);
+      const answer = {
+        gameId: this.game._id,
+        score: this.currentScore,
+        questions: this.gameService.getAnswers() 
+      };
+      console.log(answer)
+      this.answerService.saveAnswer(answer).subscribe((response: any) => {
+        this.utils.showMessage("Suas respostas foram salvas com sucesso!");
+        this.router.navigate(['/home']);
+        },(error: any) => {
+          this.utils.showMessage("Erro ao salvar suas respostas. Por favor, tente novamente.", true);
+          console.error('Erro ao salvar as respostas', error);
+        }
+      );
     });
   }
+
   allPhasesCompleted(): boolean {
     return this.gameService.allPhasesCompleted();
   }

@@ -5,7 +5,6 @@ const auth = require('../services/authentication');
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-
     if (!email || !password) {
         return res.status(400).send({
             error: true,
@@ -15,6 +14,7 @@ router.post('/login', async (req, res) => {
     }
 
     const user = await User.findOne({ email }).exec();
+    console.log(user)
     if (!user) {
         return res.status(404).json({
             error: true,

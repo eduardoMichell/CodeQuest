@@ -22,6 +22,7 @@ export class GameSettingsComponent implements OnInit {
     private router: Router,
   ) {
   }
+  
   ngOnInit() {
     this.gameService.setGame(null);
     this.headerService.headerData = {
@@ -58,7 +59,7 @@ export class GameSettingsComponent implements OnInit {
   openCreateTrackDialog(): void {
     this.gameService.openTrackDialog(false);
   }
-  
- 
+
+
 
 }
