@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let track of data.tracks">
+          <tr *ngFor="let track of data">
             <td>{{ track.theme }}</td>
             <td>{{ track.difficulty }}</td>
             <td><button (click)="generatePDF(track)">Gerar PDF</button></td>

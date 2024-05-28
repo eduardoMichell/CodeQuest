@@ -12,8 +12,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
   styleUrls: ['./game-settings.component.css']
 })
 export class GameSettingsComponent implements OnInit {
-
-
+  tracks: any;
   constructor(
     private headerService: HeaderService,
     public dialog: MatDialog,
@@ -22,7 +21,7 @@ export class GameSettingsComponent implements OnInit {
     private router: Router,
   ) {
   }
-  
+
   ngOnInit() {
     this.gameService.setGame(null);
     this.headerService.headerData = {
@@ -30,6 +29,7 @@ export class GameSettingsComponent implements OnInit {
       icon: '',
       routeUrl: ''
     };
+    this.getTracksInfo();
   }
 
 
@@ -42,17 +42,10 @@ export class GameSettingsComponent implements OnInit {
   }
   openCreatedTracksDialog(): void {
     const dialogRef = this.dialog.open(ViewTracksComponent, {
-      data: {
-        tracks: [
-          { theme: 'Matemática', difficulty: 'Fácil' },
-          { theme: 'História', difficulty: 'Médio' },
-          { theme: 'Ciências', difficulty: 'Difícil' }
-        ]
-      }
+      data: this.tracks
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -61,5 +54,10 @@ export class GameSettingsComponent implements OnInit {
   }
 
 
+  getTracksInfo() {
+    this.gameService.getTracksInfo().subscribe((data: any) => {
+      this.tracks = data.result;
+    });
+  }
 
 }

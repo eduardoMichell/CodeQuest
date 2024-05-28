@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { GameService } from 'src/app/services/game-service/game.service';
+import { UtilsService } from 'src/app/services/utils-service/utils.service';
 
 @Component({
   selector: 'app-track-dialog',
@@ -12,10 +14,12 @@ export class TrackDialogComponent implements OnInit {
   isEdit: boolean;
 
   difficulties = ['Iniciante', 'Intermediário', 'Avançado'];
- 
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<TrackDialogComponent>,
+    private gameService: GameService,
+    private utils: UtilsService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.isEdit = data.isEdit;
@@ -84,14 +88,14 @@ export class TrackDialogComponent implements OnInit {
         const questionGroup = this.fb.group({
           question: [question.question, Validators.required],
           alternatives: this.fb.array([]),
-          correct: [question.correct, Validators.required],
+          correct: [question.answer, Validators.required],
           time: [question.time, Validators.required],
           rate: [question.rate, Validators.required],
           phaseId: [question.phaseId]
         });
 
         const alternativesArray = questionGroup.get('alternatives') as FormArray;
-        question.alternatives.forEach((alternative: string) => {
+        question.options.forEach((alternative: string) => {
           alternativesArray.push(this.fb.control(alternative, Validators.required));
         });
 
@@ -115,7 +119,6 @@ export class TrackDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.trackForm);
     if (this.trackForm.valid) {
       const formValue = this.trackForm.value;
 
@@ -141,5 +144,17 @@ export class TrackDialogComponent implements OnInit {
   }
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  delete() {
+    this.gameService.deleteTrack(this.data.track._id).subscribe(
+      response => {
+        this.utils.showMessage("A trilha foi deletada com sucesso!")
+        window.location.reload();
+      },
+      error => {
+        this.utils.showMessage("Falha ao deletar a trilha")
+      }
+    );
   }
 }

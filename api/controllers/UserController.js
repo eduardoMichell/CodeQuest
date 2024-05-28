@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
+const Answer = require('../models/Answer');
 const router = express.Router();
 const auth = require('../services/authentication');
 
@@ -14,7 +15,6 @@ router.post('/login', async (req, res) => {
     }
 
     const user = await User.findOne({ email }).exec();
-    console.log(user)
     if (!user) {
         return res.status(404).json({
             error: true,
@@ -100,6 +100,69 @@ router.post('/register', async (req, res) => {
         });
     });
 
+});
+
+router.post('/add-students', async (req, res) => {
+    const students = req.body;
+
+    try {
+        const results = await Promise.all(students.map(async student => {
+            const { enrollment, name, email } = student;
+            const firstName = name.split(' ')[0].toLowerCase();
+            const password = `${firstName}${enrollment}`;
+
+            if (await User.findOne({ email }).exec()) {
+                return {
+                    enrollment,
+                    name,
+                    email,
+                    status: 'Email already registered'
+                };
+            }
+
+            if (await User.findOne({ enrollment }).exec()) {
+                return {
+                    enrollment,
+                    name,
+                    email,
+                    status: 'Enrollment already registered'
+                };
+            }
+
+            const user = new User({ name, email, password, enrollment, isAdmin: false });
+            await user.save();
+
+            return {
+                enrollment,
+                name,
+                email,
+                status: 'User registered successfully',
+            };
+        }));
+
+        const hasErrors = results.some(result => result.status !== 'User registered successfully');
+
+        if (hasErrors) {
+            return res.status(207).json({
+                error: true,
+                message: "Some students were not registered successfully",
+                result: results
+            });
+        } else {
+            return res.status(200).json({
+                error: false,
+                message: "All students registered successfully",
+                result: results
+            });
+        }
+    } catch (error) {
+        console.error('Error adding students:', error);
+        return res.status(500).json({
+            error: true,
+            message: "Failed to add students",
+            result: {}
+        });
+    }
 });
 
 router.get('/token', async (req, res) => {
@@ -280,6 +343,81 @@ router.put("/update/:id", async (req, res) => {
         });
     }
 });
+
+router.get('/students', async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const { userID } = await auth.verifyAccessToken(authHeader);
+        const user = await User.findById(userID);
+        if (!user || !user.isAdmin) {
+            return res.status(403).json({ error: true, message: "Unauthorized access", result: {} });
+        }
+
+        const students = await User.find({ isAdmin: false });
+
+        const studentScores = await Promise.all(students.map(async student => {
+            const answers = await Answer.find({ userId: student._id });
+            const totalScore = answers.reduce((sum, answer) => sum + answer.score, 0);
+            return {
+                enrollment: student.enrollment,
+                name: student.name,
+                totalScore: totalScore
+            };
+        }));
+
+        return res.status(200).json({
+            error: false,
+            message: "Students fetched successfully",
+            result: studentScores
+        });
+    } catch (error) {
+        console.error('Error fetching students:', error);
+        return res.status(500).json({
+            error: true,
+            message: "Failed to fetch students",
+            result: {}
+        });
+    }
+});
+
+router.get('/report', async (req, res) => {
+    try {
+        const students = await User.find({ isAdmin: false });
+
+        const studentReports = await Promise.all(students.map(async student => {
+            const answers = await Answer.find({ userId: student._id });
+
+            const totalTracks = answers.length;
+            const totalQuestions = answers.reduce((sum, answer) => sum + answer.questions.length, 0);
+            const totalCorrectAnswers = answers.reduce((sum, answer) => sum + answer.questions.filter(q => q.isCorrect).length, 0);
+            const totalIncorrectAnswers = totalQuestions - totalCorrectAnswers;
+
+            return {
+                name: student.name,
+                email: student.email,
+                enrollment: student.enrollment,
+                totalTracks,
+                totalQuestions,
+                totalCorrectAnswers,
+                totalIncorrectAnswers
+            };
+        }));
+
+        return res.status(200).json({
+            error: false,
+            message: "Success on generate report",
+            result: studentReports
+        });
+    } catch (error) {
+        console.error('Failed on generate report:', error);
+        return res.status(500).json({
+            error: true,
+            message: "Failed on generate report",
+            result: {}
+        });
+    }
+});
+
 
 router.get('/:id', async (req, res) => {
     User.findById(req.params.id).exec((error, result) => {

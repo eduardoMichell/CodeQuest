@@ -33,9 +33,7 @@ userSchema.pre("save", async function (next) {
 
     const newPass = await authentication.hashPassword(this.password);
     if (newPass.error) {
-        return new Promise((resolve, reject) => {
-            reject(new Error(newPass.message));
-        });
+        return next(new Error(newPass.message));
     }
     this.password = newPass.result;
     next();

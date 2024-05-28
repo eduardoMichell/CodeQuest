@@ -47,7 +47,6 @@ export class ConsultComponent implements OnInit {
 
   loadTracks(): void {
     this.answerService.getTracks().subscribe((data: any) => {
-      console.log(data)
       this.tracks = data.result;
     }, (error: any) => {
       console.error('Error loading themes', error);
@@ -70,7 +69,6 @@ export class ConsultComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -80,7 +78,6 @@ export class ConsultComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

@@ -109,7 +109,6 @@ export class PhaseComponent {
         this.ngOnInit();
         this.scoreMultiplier = true;
       } else {
-        console.log('Fase concluída!');
         this.gameService.completePhase(this.gameService.getSelectedPhaseIndex() || 0);
         this.router.navigate(['/game']);
       }

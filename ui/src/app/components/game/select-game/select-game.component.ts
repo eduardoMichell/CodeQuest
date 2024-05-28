@@ -21,7 +21,6 @@ export class SelectGameComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getGames().subscribe(
       (data: any) => {
-        console.log("getGames() ::", data.result.games)
         this.games = data.result.games;
       },
       (error) => {

@@ -3,6 +3,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { CreateStudentsDialogComponent } from '../create-students-dialog/create-students-dialog.component';
 import { ExcelReaderService } from 'src/app/services/excel-reader-service/excel-reader.service';
+import { UserService } from 'src/app/services/user-service/user.service';
+import { UtilsService } from 'src/app/services/utils-service/utils.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-students-dialog',
@@ -10,27 +14,70 @@ import { ExcelReaderService } from 'src/app/services/excel-reader-service/excel-
   styleUrls: ['./students-dialog.component.css']
 })
 export class StudentsDialogComponent implements OnInit {
-  displayedColumns: string[] = ['enrollment', 'name', 'totalScore'];
-  students = new MatTableDataSource<any>([
-    { enrollment: '12345', name: 'João Silva', totalScore: 1500 },
-    { enrollment: '67890', name: 'Maria Oliveira', totalScore: 1700 },
-    // Adicione mais alunos conforme necessário
-  ]);
+  students: any[] = [];
 
+  displayedColumns: string[] = ['enrollment', 'name', 'totalScore'];
+ 
   constructor(public dialogRef: MatDialogRef<StudentsDialogComponent>,
     private excelReaderService: ExcelReaderService,
-    private dialog: MatDialog
+    private userService: UserService,
+    private dialog: MatDialog,
+    private utils: UtilsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userService.getStudents().subscribe(
+      response => {
+        this.students = response.result;
+      },
+      error => {
+        console.error('Error fetching students:', error);
+      }
+    );
+  }
 
   onClose(): void {
     this.dialogRef.close();
   }
 
   generateReport(): void {
-    // Lógica para gerar relatório em PDF
-    console.log('Gerar Relatório');
+    this.userService.getStudentReport().subscribe(
+      response => {
+        if (response.error) {
+          console.error('Erro ao gerar relatório:', response.message);
+          return;
+        }
+        this.createPDF(response.result);
+      },
+      error => {
+        console.error('Erro ao buscar relatório:', error);
+      }
+    );
+  }
+
+  createPDF(studentReports: any[]): void {
+    const doc = new jsPDF();
+
+    doc.text('Relatório de Alunos', 10, 10);
+
+    autoTable(doc, {
+      startY: 20,
+      head: [['Matrícula', 'Nome', 'Email', 'Total de Trilhas', 'Total de Perguntas', 'Respostas Corretas', 'Respostas Incorretas']],
+      body: studentReports.map(student => [
+        student.enrollment,
+        student.name,
+        student.email,
+        student.totalTracks,
+        student.totalQuestions,
+        student.totalCorrectAnswers,
+        student.totalIncorrectAnswers
+      ]),
+      theme: 'striped',
+      headStyles: { fillColor: [255, 133, 51] }
+
+    });
+
+    doc.save('relatorio-alunos.pdf');
   }
 
   downloadTemplate(): void {
@@ -54,7 +101,6 @@ export class StudentsDialogComponent implements OnInit {
           email: row[2] || 0,
           add: true
         }));
-
         this.openAddStudentsDialog(students);
       }
     };
@@ -70,10 +116,20 @@ export class StudentsDialogComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Alunos a serem adicionados:', result);
+        this.userService.addStudents(students).subscribe(
+          response => {
+            if (response.error) {
+              this.utils.showMessage("Alguns alunos não foram registrados com sucesso", true);
+            } else {
+              this.utils.showMessage("Todos os alunos foram adicionados com sucesso");
+            }
+            this.onClose();
+          },
+          error => {
+            this.utils.showMessage("Erro ao adicionar aluno", true);
+          }
+        );
       }
     });
   }
 }
-
- 

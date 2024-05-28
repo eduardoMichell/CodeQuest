@@ -84,4 +84,28 @@ export class UserService {
     }
     return {};
   }
+
+  getStudents(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `${this.getToken()}`
+    });
+    return this.http.get<any>(`${API_URL}students`, { headers });
+  }
+
+  addStudents(students: any[]): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${this.getToken()}`
+    });
+    return this.http.post<any>(`${API_URL}add-students`, students, { headers });
+  }
+
+
+  getStudentReport(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `${this.getToken()}`
+    });
+    return this.http.get<any>(`${API_URL}report`, { headers });
+  }
+
 }

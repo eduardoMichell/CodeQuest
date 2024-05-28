@@ -71,7 +71,6 @@ export class GameComponent implements OnInit {
         score: this.currentScore,
         questions: this.gameService.getAnswers() 
       };
-      console.log(answer)
       this.answerService.saveAnswer(answer).subscribe((response: any) => {
         this.utils.showMessage("Suas respostas foram salvas com sucesso!");
         this.router.navigate(['/home']);

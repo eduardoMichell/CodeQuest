@@ -5,6 +5,7 @@ import { environment } from "../../../environments/environment";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from '../user-service/user.service';
 import { Observable } from 'rxjs/internal/Observable';
+import { UtilsService } from '../utils-service/utils.service';
 
 
 const API_URL = environment.API_URL + "/game/";
@@ -22,7 +23,8 @@ export class GameService {
   constructor(
     private dialog: MatDialog,
     private userService: UserService,
-    private http: HttpClient
+    private http: HttpClient,
+    private utils: UtilsService
   ) {
   }
 
@@ -149,7 +151,7 @@ export class GameService {
     this.selectedGame = game;
   }
 
-  openTrackDialog(isEdit: boolean, track: any = null): void {
+  openTrackDialog(isEdit: boolean, track: any = null, trackId: any = null): void {
     const dialogRef = this.dialog.open(TrackDialogComponent, {
       data: { isEdit, track }
     });
@@ -157,22 +159,39 @@ export class GameService {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         if (isEdit) {
-          // this.trackService.updateTrack(result).subscribe(response => {
-          //   console.log('Trilha atualizada com sucesso:', response);
-          // }, error => {
-          //   console.error('Erro ao atualizar trilha:', error);
-          // });
+          this.updateTrack(trackId, result).subscribe(response => {
+            this.utils.showMessage('Trilha atualizada com sucesso');
+            window.location.reload();
+          }, error => {
+            this.utils.showMessage('Falha ao editar a trilha', true);
+          });
         } else {
-          console.log('Trilha criada com sucesso:', result);
-          //   this.trackService.createTrack(result).subscribe(response => {
-          //     console.log('Trilha criada com sucesso:', response);
-          //   }, error => {
-          //     console.error('Erro ao criar trilha:', error);
-          //   });
-          // }
+          this.createTrack(result).subscribe(response => {
+            this.utils.showMessage('Trilha criada com sucesso');
+            window.location.reload();
+          }, error => {
+            this.utils.showMessage('Falha ao criar a trilha', true);
+          });
         }
       }
     });
+  }
+
+  createTrack(track: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${this.userService.getToken()}`,
+    });
+    return this.http.post<any>(`${API_URL}create`, track, { headers });
+  }
+
+
+  updateTrack(trackId: string, track: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${this.userService.getToken()}`,
+    });
+    return this.http.put<any>(`${API_URL}edit/${trackId}`, track, { headers });
   }
 
   getGames(): Observable<any[]> {
@@ -189,5 +208,18 @@ export class GameService {
     return this.http.get<any>(`${API_URL}to-play/${gameId}`, { headers });
   }
 
+  getTracksInfo(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `${this.userService.getToken()}`,
+    });
+    return this.http.get<any>(`${API_URL}view-tracks`, { headers });
+  }
 
+  deleteTrack(trackId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `${this.userService.getToken()}`,
+    });
+    return this.http.delete<any>(`${API_URL}delete/${trackId}`, { headers });
+  }
 }

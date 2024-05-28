@@ -1,5 +1,5 @@
 <div class="menu-container" *ngIf="isLogged()">
-    <div *ngIf="isAdmin()" class="button-container">
+    <div *ngIf="isAdmin() && this.tracks" class="button-container">
       <div class="button" (click)="openCreatedTracksDialog()">
         <span class="button-text">Trilhas Criadas</span>
       </div>
