@@ -1,27 +1,26 @@
 <div class="dialog-container">
-    <h1>Trilhas Respondidas</h1>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Tema</th>
-            <th>Dificuldade</th>
-            <th>Jogado</th>
-            <th>Relatório</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let track of data">
-            <td>{{ track.theme }}</td>
-            <td style="width: 100px;">{{ track.difficulty }}</td>
-            <td style="width: 50px;">{{ track.played ? "Sim" : "Não" }}</td>
-            <td style="width: 100px;"><button (click)="generatePDF(track)">Baixar PDF</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="dialog-actions">
-      <button mat-button (click)="onClose()">Fechar</button>
-    </div>
+  <h1>Trilhas</h1>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Tema</th>
+          <th>Dificuldade</th>
+          <th>Jogado</th>
+          <th>Relatório</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let track of data">
+          <td>{{ track.theme }}</td>
+          <td style="width: 100px;">{{ track.difficulty }}</td>
+          <td style="width: 50px;">{{ track.played ? "Sim" : "Não" }}</td>
+          <td style="width: 100px;"><button (click)="generatePDF(track)">Baixar PDF</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+  <div class="dialog-actions">
+    <button mat-button (click)="onClose()">Fechar</button>
+  </div>
+</div>
