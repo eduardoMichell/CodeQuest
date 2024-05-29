@@ -222,4 +222,9 @@ export class GameService {
     });
     return this.http.delete<any>(`${API_URL}delete/${trackId}`, { headers });
   }
+
+
+  getQuotes(): Observable<string[]> {
+    return this.http.get<string[]>('./assets/jsons/quotes.json');
+  }
 }

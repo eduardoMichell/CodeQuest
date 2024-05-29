@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { GameService } from 'src/app/services/game-service/game.service';
 
 @Component({
   selector: 'app-performance-dialog',
@@ -11,26 +13,18 @@ export class PerformanceDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<PerformanceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private gameService: GameService
   ) {}
 
   ngOnInit(): void {
-    this.motivationalQuote = this.getMotivationalQuote();
+    this.gameService.getQuotes().subscribe(data => {
+      const randomIndex = Math.floor(Math.random() * data.length);
+      this.motivationalQuote = data[randomIndex];
+    });
   }
 
   onClose(): void {
     this.dialogRef.close();
-  }
-
-  getMotivationalQuote(): string {
-    const quotes = [
-      "Nunca desista!",
-      "O sucesso é a soma de pequenos esforços repetidos dia após dia.",
-      "Acredite em você mesmo!",
-      "Cada dificuldade é uma oportunidade para crescer.",
-      "Persistência é o caminho do êxito."
-    ];
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    return quotes[randomIndex];
-  }
+  }  
 }
