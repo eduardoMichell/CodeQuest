@@ -136,3 +136,9 @@ CodeQuest/
 ├── README.md   # Este arquivo
 └── ...
 ```
+
+
+
+
+relatorio de alunos esta exportando errado o total de perguntas, respostas corretas e repsostas incorretas.
+    

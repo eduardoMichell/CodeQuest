@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Art Example</title>
+<style>
+  body {
+    background-color: #f0e7db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .head {
+    width: 150px;
+    height: 200px;
+    background-color: #fff;
+    border-radius: 50% 50% 45% 45%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hair {
+    background-color: silver;
+    width: 160px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: -30px;
+    left: -5px;
+  }
+
+  .ear-left, .ear-right {
+    background-color: #fff;
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    border-radius: 50% 50% 50% 50%;
+  }
+
+  .ear-left {
+    left: -15px;
+    top: 60px;
+  }
+
+  .ear-right {
+    right: -15px;
+    top: 60px;
+  }
+
+  .eye {
+    width: 20px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 70px;
+  }
+
+  .eye-left {
+    left: 40px;
+  }
+
+  .eye-right {
+    right: 40px;
+  }
+
+  .eyebrow {
+    width: 30px;
+    height: 5px;
+    background-color: #000;
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .eyebrow-left {
+    transform: rotate(20deg);
+    left: 30px;
+    top: 55px;
+  }
+
+  .eyebrow-right {
+    transform: rotate(-20deg);
+    right: 30px;
+    top: 55px;
+  }
+
+  .nose {
+    width: 5px;
+    height: 10px;
+    background-color: #000;
+    position: absolute;
+    left: 70px;
+    top: 90px;
+    border-radius: 50%;
+  }
+
+  .mouth {
+    width: 30px;
+    height: 10px;
+    background-color: #000;
+    position: absolute;
+    top: 115px;
+    left: 60px;
+    border-radius: 50%/100%;
+  }
+
+</style>
+</head>
+<body>
+<div class="head">
+  <div class="hair"></div>
+  <div class="ear-left"></div>
+  <div class="ear-right"></div>
+  <div class="eye eye-left"></div>
+  <div class="eye eye-right"></div>
+  <div class="eyebrow eyebrow-left"></div>
+  <div class="eyebrow eyebrow-right"></div>
+  <div class="nose"></div>
+  <div class="mouth"></div>
+</div>
+</body>
+</html>

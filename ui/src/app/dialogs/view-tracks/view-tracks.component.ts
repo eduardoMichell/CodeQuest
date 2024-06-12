@@ -26,12 +26,17 @@ export class ViewTracksComponent {
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height;
     let yPos = 10;
+    console.log("generatePDF() :: ", track);
+    
+    const headerColor: [number, number, number] = [255, 133, 51];  
 
     doc.setFontSize(18);
+    doc.setTextColor(...headerColor);
     doc.text('Relatório da Trilha', 10, yPos);
     yPos += 10;
 
     doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
     doc.text(`Tema: ${track.theme}`, 10, yPos);
     yPos += 10;
     doc.text(`Dificuldade: ${track.difficulty}`, 10, yPos);
@@ -44,39 +49,52 @@ export class ViewTracksComponent {
     const addPageIfNeeded = (yPos: number, increment: number) => {
         if (yPos + increment > pageHeight - 10) {
             doc.addPage();
-            return 10; // Reset yPos to start of the new page
+            return 10;
         }
         return yPos + increment;
     };
 
+    const addWrappedText = (text: string, x: number, y: number, maxWidth: number) => {
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach((line: any) => {
+            doc.text(line, x, y);
+            y = addPageIfNeeded(y, 10);
+        });
+        return y;
+    };
+
     if (track.hardestQuestion) {
         yPos = addPageIfNeeded(yPos, 20);
+        doc.setTextColor(...headerColor);
         doc.text(`Pergunta Mais Difícil:`, 10, yPos);
         yPos = addPageIfNeeded(yPos, 10);
-        const wrappedText = doc.splitTextToSize(track.hardestQuestion.question, 180);
-        doc.text(wrappedText, 10, yPos);
-        yPos = addPageIfNeeded(yPos, wrappedText.length * 10);
-        doc.text(`Opções: ${track.hardestQuestion.options.join(', ')}`, 10, yPos);
+        doc.setTextColor(0, 0, 0);
+        yPos = addWrappedText(track.hardestQuestion.question, 10, yPos, 180);
+        yPos = addPageIfNeeded(yPos, 10);
+        yPos = addWrappedText(`Opções: ${track.hardestQuestion.options.join(', ')}`, 10, yPos, 180);
         yPos = addPageIfNeeded(yPos, 10);
     }
 
     if (track.easiestQuestion) {
         yPos = addPageIfNeeded(yPos, 20);
+        doc.setTextColor(...headerColor);
         doc.text(`Pergunta Mais Fácil:`, 10, yPos);
         yPos = addPageIfNeeded(yPos, 10);
-        const wrappedText = doc.splitTextToSize(track.easiestQuestion.question, 180);
-        doc.text(wrappedText, 10, yPos);
-        yPos = addPageIfNeeded(yPos, wrappedText.length * 10);
-        doc.text(`Opções: ${track.easiestQuestion.options.join(', ')}`, 10, yPos);
+        doc.setTextColor(0, 0, 0); 
+        yPos = addWrappedText(track.easiestQuestion.question, 10, yPos, 180);
+        yPos = addPageIfNeeded(yPos, 10);
+        yPos = addWrappedText(`Opções: ${track.easiestQuestion.options.join(', ')}`, 10, yPos, 180);
         yPos = addPageIfNeeded(yPos, 10);
     }
 
     yPos = addPageIfNeeded(yPos, 20);
+    doc.setTextColor(...headerColor);
     const playerNames = track.players.join(', ');
-    doc.text(`Jogadores que jogaram: ${playerNames}`, 10, yPos);
+    yPos = addWrappedText(`Jogadores que jogaram: ${playerNames}`, 10, yPos, 180);
 
     doc.save(`${track.theme}-relatorio.pdf`);
 }
+
 
   
   editTrack(track: any): void {

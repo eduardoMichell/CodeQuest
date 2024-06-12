@@ -387,10 +387,20 @@ router.get('/report', async (req, res) => {
         const studentReports = await Promise.all(students.map(async student => {
             const answers = await Answer.find({ userId: student._id });
 
-            const totalTracks = answers.length;
-            const totalQuestions = answers.reduce((sum, answer) => sum + answer.questions.length, 0);
-            const totalCorrectAnswers = answers.reduce((sum, answer) => sum + answer.questions.filter(q => q.isCorrect).length, 0);
-            const totalIncorrectAnswers = totalQuestions - totalCorrectAnswers;
+            let totalTracks = answers.length;
+            let totalQuestions = 0;
+            let totalCorrectAnswers = 0;
+
+            // Iterar sobre cada resposta do usuário
+            answers.forEach(answer => {
+                // Iterar sobre cada trilha de perguntas
+                answer.questions.forEach(track => {
+                    totalQuestions += track.questions.length;
+                    totalCorrectAnswers += track.questions.filter(q => q.isCorrect).length;
+                });
+            });
+
+            let totalIncorrectAnswers = totalQuestions - totalCorrectAnswers;
 
             return {
                 name: student.name,
@@ -417,6 +427,7 @@ router.get('/report', async (req, res) => {
         });
     }
 });
+
 
 
 router.get('/:id', async (req, res) => {
