@@ -2,13 +2,34 @@ const express = require('express');
 
 const Game = require('../models/Game');
 const Answer = require('../models/Answer');
-const User = require('../models/User');
-const Question = require('../models/Question');
-const Phase = require('../models/Phase');
-
 const router = express.Router();
 const auth = require('../services/authentication');
 
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Answers
+ *     description: Answer Controller
+ */
+
+/**
+ * @swagger
+ * /answer/stats:
+ *   get:
+ *     summary: Get user stats
+ *     description: Retrieve stats for the authenticated user
+ *     tags: [Answers]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: User stats retrieved successfully
+ *       401:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Server error
+ */
 router.get('/stats', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -53,6 +74,24 @@ router.get('/stats', async (req, res) => {
     }
 });
 
+ 
+/**
+ * @swagger
+ * /answer/ranking:
+ *   get:
+ *     summary: Get user ranking
+ *     description: Retrieve ranking for all users
+ *     tags: [Answers]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Ranking retrieved successfully
+ *       401:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Server error
+ */
 router.get('/ranking', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -121,6 +160,50 @@ router.get('/ranking', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /answer/save:
+ *   post:
+ *     summary: Save game results
+ *     description: Save the results of a game for the authenticated user
+ *     tags: [Answers]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               gameId:
+ *                 type: string
+ *               score:
+ *                 type: integer
+ *               questions:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     phaseId:
+ *                       type: string
+ *                     questions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           questionId:
+ *                             type: string
+ *                           isCorrect:
+ *                             type: boolean
+ *     responses:
+ *       201:
+ *         description: Answer saved successfully
+ *       401:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Server error
+ */
 router.post('/save', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -159,6 +242,23 @@ router.post('/save', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /answer/tracks:
+ *   get:
+ *     summary: Get available tracks
+ *     description: Retrieve all available tracks for the authenticated user
+ *     tags: [Answers]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Tracks retrieved successfully
+ *       401:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Server error
+ */
 router.get('/tracks', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -207,6 +307,23 @@ router.get('/tracks', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /answer/user/detailed-stats:
+ *   get:
+ *     summary: Get detailed user stats
+ *     description: Retrieve detailed stats for the authenticated user
+ *     tags: [Answers]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Detailed stats retrieved successfully
+ *       401:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Server error
+ */
 router.get('/user/detailed-stats', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {

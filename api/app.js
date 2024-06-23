@@ -5,6 +5,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authentication = require('./middleware/authentication');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./services/swaggerConfig');
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,6 +22,8 @@ mongoose.connect(process.env.MONGO_URL, {
 }).then(() => console.log('DB connected'))
 	.catch(err => console.error(err));
 
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 authentication(app);
 
 app.use("/auth", require("./controllers/UserController"));
@@ -26,5 +31,7 @@ app.use("/game", require("./controllers/GameController"));
 app.use("/answer", require("./controllers/AnswerController"));
 
 
-app.listen(PORT);
-console.log("Connected and listening at " + PORT);
+app.listen(PORT, () => {
+	console.log(`Servidor rodando em http://localhost:${PORT}`);
+	console.log(`Documentação do Swagger disponível em http://localhost:${PORT}/docs`);
+  });

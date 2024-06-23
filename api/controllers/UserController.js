@@ -4,6 +4,43 @@ const Answer = require('../models/Answer');
 const router = express.Router();
 const auth = require('../services/authentication');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: User
+ *     description: User Controller
+ */
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login a user
+ *     description: Authenticate a user and return a token
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Successful on Login
+ *       400:
+ *         description: Fields can't be empty
+ *       401:
+ *         description: Incorrect username or password
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Create token error
+ */
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -61,6 +98,38 @@ router.post('/login', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     description: Register a new user with the given details
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               enrollment:
+ *                 type: string
+ *               isAdmin:
+ *                 type: boolean
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       409:
+ *         description: E-mail or Enrollment already registered
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/register', async (req, res) => {
     const { name, email, password, enrollment , isAdmin } = req.body;
     if (await User.findOne({ email }).exec()) {
@@ -102,6 +171,36 @@ router.post('/register', async (req, res) => {
 
 });
 
+/**
+ * @swagger
+ * /auth/add-students:
+ *   post:
+ *     summary: Add multiple students
+ *     description: Add multiple students with the given details
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: object
+ *               properties:
+ *                 enrollment:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: All students registered successfully
+ *       207:
+ *         description: Some students were not registered successfully
+ *       500:
+ *         description: Failed to add students
+ */
 router.post('/add-students', async (req, res) => {
     const students = req.body;
 
@@ -165,6 +264,26 @@ router.post('/add-students', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/token:
+ *   get:
+ *     summary: Get user by token
+ *     description: Retrieve user details by token
+ *     tags: [User]
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Access token
+ *     responses:
+ *       200:
+ *         description: Success on get user by token
+ *       401:
+ *         description: Token not found or User not found
+ */
 router.get('/token', async (req, res) => {
     const authToken = req.query.token;
     const { token } = await auth.verifyAccessToken(authToken);
@@ -192,6 +311,42 @@ router.get('/token', async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /auth/change-password:
+ *   post:
+ *     summary: Change user password
+ *     description: Change the password of an authenticated user
+ *     tags: [User]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               oldPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Success on update password
+ *       400:
+ *         description: Fields can't be empty or Old password and new password are the same
+ *       401:
+ *         description: Token not found, User not found or Incorrect username or password
+ *       403:
+ *         description: Unauthorized user
+ *       422:
+ *         description: Invalid new password
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/change-passoword', async (req, res) => {
     try {
         const { email, oldPassword, newPassword } = req.body;
@@ -275,6 +430,30 @@ router.post('/change-passoword', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   post:
+ *     summary: Forgot password
+ *     description: Request a password reset for a user
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: We sent an email with a link to get back into your account
+ *       400:
+ *         description: Field: email can't be empty
+ *       500:
+ *         description: Internal server error
+ */
 router.post('/forgot-passoword', async (req, res) => {
     try {
         const { email } = req.body;
@@ -307,6 +486,43 @@ router.post('/forgot-passoword', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/update/{id}:
+ *   put:
+ *     summary: Update user details
+ *     description: Update the details of an existing user
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the user to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               cpf:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Success updating user
+ *       404:
+ *         description: User not found
+ *       501:
+ *         description: Internal server error
+ */
 router.put("/update/:id", async (req, res) => {
     const { name, cpf, email, phone } = req.body;
 
@@ -344,6 +560,23 @@ router.put("/update/:id", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/students:
+ *   get:
+ *     summary: Get all students
+ *     description: Retrieve a list of all students with their scores
+ *     tags: [User]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Students fetched successfully
+ *       403:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Failed to fetch students
+ */
 router.get('/students', async (req, res) => {
     try {
         const authHeader = req.headers['authorization'];
@@ -380,6 +613,19 @@ router.get('/students', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /auth/report:
+ *   get:
+ *     summary: Generate a report for all students
+ *     description: Generate a report with detailed statistics for all students
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Success on generate report
+ *       500:
+ *         description: Failed on generate report
+ */
 router.get('/report', async (req, res) => {
     try {
         const students = await User.find({ isAdmin: false });
@@ -428,8 +674,26 @@ router.get('/report', async (req, res) => {
     }
 });
 
-
-
+/**
+ * @swagger
+ * /auth/{id}:
+ *   get:
+ *     summary: Get user by ID
+ *     description: Retrieve user details by ID
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the user to retrieve
+ *     responses:
+ *       201:
+ *         description: User found by ID
+ *       501:
+ *         description: Internal server error
+ */
 router.get('/:id', async (req, res) => {
     User.findById(req.params.id).exec((error, result) => {
         if (error) {

@@ -9,7 +9,59 @@ const Phase = require('../models/Phase');
 const router = express.Router();
 const auth = require('../services/authentication');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Game
+ *     description: Game Controller
+ */
 
+/**
+ * @swagger
+ * /game/create:
+ *   post:
+ *     summary: Create a new game
+ *     description: Create a new game with phases and questions
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               theme:
+ *                 type: string
+ *               difficulty:
+ *                 type: string
+ *               phases:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     questions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           questionText:
+ *                             type: string
+ *                           options:
+ *                             type: array
+ *                             items:
+ *                               type: string
+ *                           correctOption:
+ *                             type: string
+ *     responses:
+ *       201:
+ *         description: Game created successfully
+ *       403:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Failed to create game
+ */
 router.post('/create', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const { userID } = await auth.verifyAccessToken(authHeader);
@@ -81,6 +133,61 @@ router.post('/create', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /game/edit/{id}:
+ *   put:
+ *     summary: Edit an existing game
+ *     description: Edit the details of an existing game
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the game to be edited
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               theme:
+ *                 type: string
+ *               difficulty:
+ *                 type: string
+ *               phases:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     questions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           questionText:
+ *                             type: string
+ *                           options:
+ *                             type: array
+ *                             items:
+ *                               type: string
+ *                           correctOption:
+ *                             type: string
+ *     responses:
+ *       200:
+ *         description: Game updated successfully
+ *       403:
+ *         description: Unauthorized access
+ *       404:
+ *         description: Game not found
+ *       500:
+ *         description: Failed to update game
+ */
 router.put('/edit/:id', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const { userID } = await auth.verifyAccessToken(authHeader);
@@ -153,6 +260,23 @@ router.put('/edit/:id', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /game/tracks:
+ *   get:
+ *     summary: Get all games with played info
+ *     description: Retrieve all games with information if they have been played by the authenticated user
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Games retrieved successfully
+ *       401:
+ *         description: Token not found
+ *       500:
+ *         description: Server error
+ */
 router.get('/tracks', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -196,6 +320,23 @@ router.get('/tracks', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /game/view-tracks:
+ *   get:
+ *     summary: Get detailed track information
+ *     description: Retrieve detailed information about tracks, including correct and incorrect answers
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     responses:
+ *       200:
+ *         description: Tracks retrieved successfully
+ *       401:
+ *         description: Token not found
+ *       500:
+ *         description: Server error
+ */
 router.get('/view-tracks', async (req, res) => {
     const authHeader = req.headers['authorization'];
     try {
@@ -277,6 +418,32 @@ router.get('/view-tracks', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /game/to-play/{gameId}:
+ *   get:
+ *     summary: Get game details to play
+ *     description: Retrieve the details of a game to play, including phases and questions
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: gameId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the game to retrieve
+ *     responses:
+ *       200:
+ *         description: Game retrieved successfully
+ *       401:
+ *         description: Token not found
+ *       404:
+ *         description: Game not found
+ *       500:
+ *         description: Server error
+ */
 router.get('/to-play/:gameId', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const { gameId } = req.params;
@@ -333,6 +500,30 @@ router.get('/to-play/:gameId', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /game/delete/{id}:
+ *   delete:
+ *     summary: Delete a game
+ *     description: Delete a game and all associated data
+ *     tags: [Game]
+ *     security:
+ *       - ApiKeyAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the game to delete
+ *     responses:
+ *       200:
+ *         description: Game and all associated data deleted successfully
+ *       403:
+ *         description: Unauthorized access
+ *       500:
+ *         description: Failed to delete game
+ */
 router.delete('/delete/:id', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const { userID } = await auth.verifyAccessToken(authHeader);
